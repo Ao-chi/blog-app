@@ -1,0 +1,19 @@
+@import "../abstracts/functions";
+@import "../abstracts/mixins";
+@import "../abstracts/variables";
+
+.button {
+    color: $white;
+    width: auto;
+    position: relative;
+    font-weight: font-weight(font-bold);
+    @include Roboto;
+    border: 1px solid $black;
+    border-radius: $p-0_5;
+    padding: $p-0_5 $p-1_5;
+    margin-bottom: $p-1;
+    background-color: transparent;
+    white-space: nowrap;
+    transition: all ease-in-out 0.3s;
+    cursor: pointer;
+}

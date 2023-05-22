@@ -1,0 +1,87 @@
+@import "../styles/sass/abstracts/functions";
+@import "../styles/sass/abstracts/mixins";
+@import "../styles/sass/abstracts/variables";
+
+.feed {
+    display: grid;
+    gap: 20px;
+}
+
+.container {
+    max-width: 768px;
+    margin: $p-0 auto;
+}
+
+.profile-wrapper {
+    padding-top: $p-3;
+    margin-bottom: $p-1;
+}
+
+.profile-header {
+    position: relative;
+    padding: $p-1;
+    padding-top: $p-0;
+
+    border-radius: 10px;
+    box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.25);
+    -webkit-box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.25);
+    -moz-box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.25);
+
+    &__avatar {
+        border-radius: 50%;
+        text-align: center;
+
+        .image {
+            display: inline-block;
+            margin-top: -50px;
+        }
+
+        img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin-bottom: $p-0_5;
+        }
+    }
+
+    .edit-profile {
+        position: absolute;
+        top: $p-1_5;
+        right: $p-1_5;
+
+        &__btn {
+            font-weight: font-weight(font-bold);
+            border: 1.5px solid $dark-brown;
+            border-radius: 20px;
+            padding: $p-0_5 $p-1;
+            cursor: pointer;
+
+            &:hover {
+                color: $white;
+                border: 1.5px solid $darker-brown;
+                background: $darker-brown;
+            }
+        }
+    }
+
+    &__body {
+        text-align: center;
+    }
+
+    &__username,
+    &__email {
+        display: block;
+    }
+
+    &__username {
+        font-size: fs(fs-20);
+        font-weight: font-weight(font-bold);
+        text-transform: capitalize;
+    }
+
+    &__email {
+        color: $dark-brown;
+        font-size: fs(fs-16);
+        margin-bottom: $p-1_5;
+    }
+}

@@ -1,0 +1,59 @@
+@import "../styles/sass/abstracts/reset";
+@import "../styles/sass/abstracts/functions";
+@import "../styles/sass/abstracts/mixins";
+@import "../styles/sass/abstracts/variables";
+
+@import "../styles/sass/base/base";
+@import "../styles/sass/base/fonts";
+
+.ql-toolbar.ql-snow,
+.ql-container.ql-snow {
+    border: 1px solid $black !important;
+}
+
+.ql-toolbar.ql-snow {
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+.ql-container.ql-snow {
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+    height: 300px;
+}
+
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+/*nprogress*/
+
+#nprogress .bar {
+    background: $domino !important;
+    position: fixed;
+    height: 4px !important;
+}
+
+/* Fancy blur effect */
+#nprogress .peg {
+    display: block;
+    position: absolute;
+    right: 0px;
+    width: 100px;
+    height: 100%;
+    box-shadow: 0 0 20px $domino, 0 0 20px $domino !important;
+}
+
+#nprogress .spinner-icon {
+    width: 25px !important;
+    height: 25px !important;
+    box-sizing: border-box;
+    border: solid 3px transparent !important;
+    border-top-color: $domino !important;
+    border-left-color: $domino !important;
+    border-radius: 50%;
+
+    -webkit-animation: nprogress-spinner 400ms linear infinite;
+    animation: nprogress-spinner 400ms linear infinite;
+}

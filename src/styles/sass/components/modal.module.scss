@@ -1,0 +1,140 @@
+@import "../abstracts/functions";
+@import "../abstracts/mixins";
+@import "../abstracts/variables";
+
+.image-wrapper {
+    display: flex;
+    align-items: center;
+    margin-bottom: $p-1_5;
+
+    .image-handle {
+        width: 40px;
+        height: 40px;
+        border: 1px solid $dark-brown;
+        border-radius: 50%;
+        margin-right: $p-0_5;
+    }
+
+    input[type="file"] {
+        display: none;
+    }
+    label {
+        font-weight: font-weight(font-bold);
+        cursor: pointer;
+
+        &:hover {
+            color: $domino;
+        }
+    }
+}
+
+.modal {
+    &__header {
+        display: flex;
+        align-items: center;
+        span {
+            font-size: fs(fs-18);
+            margin-bottom: 2px;
+        }
+    }
+
+    &.open {
+        display: block;
+    }
+
+    &.close {
+        display: none;
+    }
+
+    &__close {
+        border: none;
+        border-radius: 50%;
+        background-color: transparent;
+        padding: 5px 10px;
+        margin-right: $p-1;
+        cursor: pointer;
+
+        &:hover {
+            background: $lighter-grey;
+        }
+        svg {
+            font-size: fs(fs-20);
+        }
+    }
+
+    .button-container {
+        text-align: center;
+        .save-btn {
+            background: transparent;
+            border-radius: 20px;
+            border: 1px solid $black;
+            padding: $p-0_5 $p-3;
+            cursor: pointer;
+
+            &:hover {
+                color: $white;
+                background: $darker-brown;
+            }
+        }
+    }
+}
+
+.profile-form {
+    &__body {
+        display: flex;
+        flex-direction: column;
+    }
+
+    &__label {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        margin-bottom: $p-1;
+    }
+
+    &__input,
+    &__textarea {
+        border: 1px solid $black;
+        border-radius: 8px;
+        padding: $p-0_5 $p-1;
+    }
+
+    &__textarea {
+        resize: none;
+        height: 80px;
+    }
+}
+
+@include breakpoint(md, min) {
+    .modal-background {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        background: rgba(0, 0, 0, 0.4);
+        display: grid;
+        place-items: center;
+        min-height: 100vh;
+
+        &.open {
+            display: grid;
+        }
+
+        &.close {
+            display: none;
+        }
+    }
+
+    .modal {
+        border: 1px solid $dark-brown;
+        border-radius: 20px;
+        background: $white;
+        min-width: 360px;
+        padding: $p-1_5;
+
+        &__header {
+            font-weight: font-weight(font-bold);
+            margin-bottom: $p-1;
+        }
+    }
+}

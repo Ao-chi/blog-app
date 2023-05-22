@@ -1,0 +1,58 @@
+@import "../abstracts/functions";
+@import "../abstracts/mixins";
+@import "../abstracts/variables";
+
+.card {
+    // border: 1px solid $border-grey;
+    // background-color: $wheatfield;
+    border-radius: 8px;
+    box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.25);
+    -webkit-box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.25);
+    -moz-box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.25);
+    padding: $p-1;
+    height: 100%;
+
+    &__profile {
+        display: flex;
+        margin-bottom: $p-0_5;
+    }
+
+    &__img {
+        height: 3rem;
+        border: 1px;
+        border-radius: 50%;
+        margin-right: $p-0_5;
+    }
+
+    &__user {
+        font-weight: font-weight(font-bold);
+        margin-bottom: $p-0;
+        line-height: 1;
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+
+    &__email {
+        color: $border-grey;
+        font-size: fs(fs-16);
+    }
+
+    &__body {
+        padding-left: 3.4375rem;
+    }
+
+    &__title {
+        font-size: fs(fs-24);
+        font-weight: font-weight(font-bold);
+
+        &:hover {
+            color: $domino;
+        }
+    }
+
+    &__date {
+        font-size: fs(fs-14);
+    }
+}

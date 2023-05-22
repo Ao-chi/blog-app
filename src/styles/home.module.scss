@@ -1,0 +1,50 @@
+@import "../styles/sass/abstracts/functions";
+@import "../styles/sass/abstracts/mixins";
+@import "../styles/sass/abstracts/variables";
+
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.hero {
+    border-radius: 50px;
+    background: url(../../public/images/bench-accounting-nvzvOPQW0gc-unsplash.jpg);
+    background-position: center 80%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: calc(100vh - 200px);
+    margin: $p-0 $p-1;
+    position: relative;
+
+    &::before {
+        content: "";
+        @include pos-absolute(0, 0, 0, 0);
+        background: rgba(255, 255, 255, 0.2);
+        backdrop-filter: blur(2px);
+        -webkit-backdrop-filter: blur(2px);
+        border-radius: 50px;
+    }
+
+    &__container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    &__heading-container {
+        text-align: center;
+        padding: 10rem $p-0;
+        width: fit-content;
+        z-index: 1;
+        h1 {
+            font-size: 5rem;
+            font-weight: font-weight(font-bold);
+            @include Raleway;
+            margin-bottom: $p-0;
+        }
+        p {
+            font-size: fs(fs-28);
+        }
+    }
+}

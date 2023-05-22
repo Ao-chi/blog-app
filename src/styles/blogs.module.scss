@@ -1,0 +1,22 @@
+@import "../styles/sass/abstracts/functions";
+@import "../styles/sass/abstracts/mixins";
+@import "../styles/sass/abstracts/variables";
+
+.container {
+    padding: 5%;
+    margin: $p-0 auto;
+}
+
+.grid-blog {
+    display: grid;
+    // grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+    gap: 0.625rem;
+}
+
+// media queries
+@include breakpoint(lg, min) {
+    .container {
+        max-width: 768px;
+        margin: 0 auto;
+    }
+}

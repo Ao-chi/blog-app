@@ -1,0 +1,212 @@
+@import "../abstracts/functions";
+@import "../abstracts/mixins";
+@import "../abstracts/variables";
+@import "../components/button.module.scss";
+
+.container {
+    max-width: auto;
+    margin: 0 auto;
+    padding: $p-1_5 5%;
+}
+
+.header {
+    height: calc(6.375rem + 32px);
+}
+
+.navbar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    // padding: $p-1_5 $p-0;
+}
+
+.logo {
+    text-align: center;
+    padding-top: $p-1;
+    margin-right: auto;
+    svg {
+        width: 140px;
+        height: 70px;
+        margin: $p-0 auto;
+    }
+}
+
+.nav_menu {
+    display: flex;
+    align-items: center;
+    padding-left: $p-0;
+    gap: 3.5rem;
+}
+
+.auth_menu {
+    display: flex;
+    align-items: center;
+    gap: $p-1;
+    padding-left: $p-0;
+    margin-left: auto;
+
+    &__items {
+        border: 1px solid $black;
+        border-radius: 5px;
+        padding: $p-0_5 $p-1;
+    }
+
+    &.loading {
+        opacity: 0;
+        visibility: none;
+    }
+
+    &.loaded {
+        opacity: 1;
+        visibility: visible;
+    }
+}
+
+.dropdown {
+    position: relative;
+
+    .profile {
+        display: flex;
+        align-items: center;
+    }
+
+    .profile-btn {
+        border-radius: 100%;
+        border: none;
+        padding: $p-0;
+        margin-bottom: $p-0;
+        width: auto;
+
+        .img-container {
+            width: 50px;
+            height: 50px;
+            border: 1.5px solid $dark-brown;
+            border-radius: 100%;
+            overflow: hidden;
+            // padding: 2px;
+
+            img {
+                border-radius: 100%;
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+        }
+    }
+
+    .write-post {
+        display: inline-block;
+        border: 1.5px solid $dark-brown;
+        border-radius: 20px;
+        width: auto;
+        margin-right: $p-1_5;
+        margin-bottom: $p-0;
+
+        &:hover {
+            background: $darker-brown;
+
+            a {
+                color: $white;
+
+                * {
+                    transition: none;
+                }
+            }
+        }
+    }
+
+    .dropdown-menu {
+        position: absolute;
+        right: 0;
+        width: auto;
+        border: 1px solid $grayish-blue;
+        border-radius: 10px;
+        background: $white;
+        padding: $p-1;
+        margin-top: $p-1;
+        z-index: 1000;
+
+        &.open {
+            display: block;
+        }
+
+        &.close {
+            display: none;
+        }
+
+        &__item {
+            display: flex;
+            align-items: center;
+
+            .img-container {
+                width: 45px;
+                height: 45px;
+                border: 2px solid lighten($lighter-grey, 20%);
+                border-radius: 100%;
+                overflow: hidden;
+                // padding: 2px;
+                margin-right: $p-1;
+
+                img {
+                    border-radius: 100%;
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                }
+            }
+
+            div {
+                display: flex;
+                flex-direction: column;
+
+                span {
+                    &:nth-child(1) {
+                        font-weight: font-weight(font-bold);
+                        text-transform: capitalize;
+                    }
+                }
+            }
+
+            .icon {
+                margin-right: $p-1;
+                width: $p-1;
+                height: $p-1;
+            }
+        }
+    }
+}
+
+.log-in {
+    border: none;
+    padding: 5px $p-0_5;
+
+    &:hover {
+        // font-weight: font-weight(font-bolder);
+        background: $lighter-grey;
+        border-radius: 5px;
+    }
+}
+
+.sign-up {
+    color: $white;
+    background: $black;
+
+    &:hover {
+        color: $black;
+        background: $white;
+    }
+}
+
+// media queries
+
+@include breakpoint(lg, min) {
+    .container {
+        max-width: 1400px;
+    }
+
+    .navmenu {
+        &__items {
+            font-size: fs(fs-18);
+        }
+    }
+}
