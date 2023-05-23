@@ -104,7 +104,7 @@ export default SingleUser;
 
 export async function getStaticProps({ params }) {
     const response = await axios.get(
-        `http://blog-app-git-dev-ao-chi.vercel.app/api/blogs/author/${params.id}`
+        `https://blog-app-git-dev-ao-chi.vercel.app/api/blogs/author/${params.id}`
     );
     // console.log(response.data);
     return {
@@ -115,7 +115,7 @@ export async function getStaticProps({ params }) {
 }
 
 export async function getStaticPaths() {
-    const res = await axios.get("http://blog-app-git-dev-ao-chi.vercel.app/api/blogs");
+    const res = await axios.get("https://blog-app-git-dev-ao-chi.vercel.app/api/blogs");
 
     const paths = res.data.map((blogs) => {
         console.log(blogs);

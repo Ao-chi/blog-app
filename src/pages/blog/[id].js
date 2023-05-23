@@ -93,7 +93,7 @@ const BlogPost = ({ blog }) => {
 export default BlogPost;
 
 export async function getStaticProps({ params }) {
-    const response = await axios.get(`http://blog-app-git-dev-ao-chi.vercel.app/api/blogs/${params.id}`);
+    const response = await axios.get(`https://blog-app-git-dev-ao-chi.vercel.app/api/blogs/${params.id}`);
 
     return {
         props: {
@@ -103,7 +103,7 @@ export async function getStaticProps({ params }) {
 }
 
 export async function getStaticPaths() {
-    const res = await axios.get("http://blog-app-git-dev-ao-chi.vercel.app/api/blogs");
+    const res = await axios.get("https://blog-app-git-dev-ao-chi.vercel.app/api/blogs");
 
     const paths = res.data.map((blogs) => {
         return {
