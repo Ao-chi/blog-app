@@ -124,19 +124,12 @@ const WritePost = () => {
                                 />
                             </div>
                             <div className={`${style.button}`}>
-                                <Button
-                                    type="submit"
-                                    children="Publish"
-                                    className={`${btn.button} ${style.button__publish}`}
-                                ></Button>
-                                <Button
-                                    type="button"
-                                    children={[
-                                        `Preview `,
-                                        <FontAwesomeIcon key="icon-preview" icon={faEye} />,
-                                    ]}
-                                    className={`${btn.button}  ${style.button__preview}`}
-                                ></Button>
+                                <Button type="submit" className={`${btn.button} ${style.button__publish}`}>
+                                    Publish
+                                </Button>
+                                <Button type="button" className={`${btn.button}  ${style.button__preview}`}>
+                                    {[`Preview `, <FontAwesomeIcon key="icon-preview" icon={faEye} />]}
+                                </Button>
                             </div>
                         </form>
                     </div>
