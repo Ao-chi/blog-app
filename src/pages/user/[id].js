@@ -13,6 +13,7 @@ import { useSession } from "next-auth/react";
 import ProfileModal from "@/components/settings/profileModal";
 import Button from "@/components/button/button";
 import Head from "next/head";
+import Image from "next/image";
 
 const SingleUser = ({ blog }) => {
     // console.log(blog);
@@ -34,7 +35,12 @@ const SingleUser = ({ blog }) => {
                     <header className={`${style["profile-header"]}`}>
                         <div className={`${style["profile-header__avatar"]}`}>
                             <span className={`${style.image}`}>
-                                <img src="/images/Towa_Ch._3F3F_3j.webp" alt="" />
+                                <Image
+                                    src="/images/Towa_Ch._3F3F_3j.webp"
+                                    alt="user-profile-image"
+                                    width={100}
+                                    height={100}
+                                />
                             </span>
                         </div>
                         <div className={`${style["edit-profile"]}`}>

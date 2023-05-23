@@ -252,7 +252,7 @@ const Login = () => {
                         </Button>
 
                         <p>
-                            Don't have an account?
+                            <span>Don't have an account?</span>
                             <Link href="/signup" className={`${style.login_form__signup}`}>
                                 Sign Up
                             </Link>

@@ -36,10 +36,12 @@ const BlogPost = ({ blog }) => {
                     <section className={`${style["blog-container"]} ${style.blog}`}>
                         <article>
                             <header className={`${style.profile}`}>
-                                <img
+                                <Image
                                     className={`${style.profile__img}`}
                                     src="/images/Tokoyami_Towa_-_Portrait_01.png"
                                     alt="profile"
+                                    width={100}
+                                    height={100}
                                 />
                                 <div className={`${style.profile__details}`}>
                                     <p>{username}</p>
