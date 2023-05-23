@@ -75,7 +75,7 @@ const SingleUser = ({ blog }) => {
                     {!blog.author?.blogs ? (
                         <>
                             <div>
-                                <h2> You haven't posted a blog yet</h2>
+                                <h2> You haven&apos;t posted a blog yet</h2>
                             </div>
                         </>
                     ) : (
