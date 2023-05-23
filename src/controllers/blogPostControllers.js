@@ -7,7 +7,7 @@ import { createRouter, expressWrapper } from "next-connect";
 const router = createRouter();
 
 // handle file uploads
-const storage = multer.diskStorage({
+export const storage = multer.diskStorage({
     destination: (req, file, callback) => {
         callback(null, "/public/uploads");
     },
@@ -20,14 +20,14 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 // GET all blog posts
-const getBlogPosts = async (req, res) => {
+export const getBlogPosts = async (req, res) => {
     const blogs = await BlogPost.find({}).sort({ createdAt: -1 }).populate("author");
 
     res.status(200).json(blogs);
 };
 
 // GET a single blog posts
-const getSingleBlogPost = async (req, res) => {
+export const getSingleBlogPost = async (req, res) => {
     const { id } = req.query;
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
@@ -44,7 +44,7 @@ const getSingleBlogPost = async (req, res) => {
 };
 
 // POST a new blog posts
-const createNewBlog = async (req, res) => {
+export const createNewBlog = async (req, res) => {
     const { title, content, author } = req.body;
 
     // add blog to db
@@ -78,7 +78,7 @@ const createNewBlog = async (req, res) => {
 };
 
 // DELETE a blog posts
-const deleteBlogPost = async (req, res) => {
+export const deleteBlogPost = async (req, res) => {
     const { id } = req.query;
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
@@ -95,7 +95,7 @@ const deleteBlogPost = async (req, res) => {
 };
 
 // GET user Blog by id
-const getUserBlog = async (req, res) => {
+export const getUserBlog = async (req, res) => {
     const { id } = req.query;
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
@@ -115,7 +115,7 @@ const getUserBlog = async (req, res) => {
 };
 
 // UPDATE a blog posts
-const updateBlogPost = async (req, res) => {
+export const updateBlogPost = async (req, res) => {
     const { id } = req.query;
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
@@ -131,11 +131,11 @@ const updateBlogPost = async (req, res) => {
     res.status(200).json(blog);
 };
 
-module.exports = {
-    getBlogPosts,
-    getSingleBlogPost,
-    createNewBlog,
-    deleteBlogPost,
-    getUserBlog,
-    updateBlogPost,
-};
+// module.exports = {
+//     getBlogPosts,
+//     getSingleBlogPost,
+//     createNewBlog,
+//     deleteBlogPost,
+//     getUserBlog,
+//     updateBlogPost,
+// };

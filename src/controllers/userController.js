@@ -10,7 +10,7 @@ const generateToken = ({ _id }) => {
 };
 
 // GET all user
-const getAllUsers = async (req, res) => {
+export const getAllUsers = async (req, res) => {
     let users;
     try {
         users = await User.find({});
@@ -21,7 +21,7 @@ const getAllUsers = async (req, res) => {
 };
 
 // GET SINGLE USER
-const getSingleUser = async (req, res) => {
+export const getSingleUser = async (req, res) => {
     const { id } = req.query;
     try {
         if (!mongoose.Types.ObjectId.isValid(id)) {
@@ -36,7 +36,7 @@ const getSingleUser = async (req, res) => {
 };
 
 // UPDATE SINGLE USER
-const updateUser = async (req, res) => {
+export const updateUser = async (req, res) => {
     const { id } = req.query;
 
     try {
@@ -51,7 +51,7 @@ const updateUser = async (req, res) => {
 };
 
 // register user POST
-const registerUser = async (req, res) => {
+export const registerUser = async (req, res) => {
     const { username, email, password } = req.body;
     const saltRounds = 10;
     let existingUser;
@@ -94,7 +94,7 @@ const registerUser = async (req, res) => {
 };
 
 // login user
-const loginUser = async (req, res) => {
+export const loginUser = async (req, res) => {
     const { username, email, password } = req.body;
 
     // //check for empty fields
@@ -120,7 +120,7 @@ const loginUser = async (req, res) => {
     }
 };
 
-const userLogin = async (credentials) => {
+export const userLogin = async (credentials) => {
     // const { username, email, password } = credentials;
     const email = credentials.email;
     const username = credentials.username;
@@ -146,11 +146,11 @@ const userLogin = async (credentials) => {
     }
 };
 
-module.exports = {
-    getAllUsers,
-    getSingleUser,
-    updateUser,
-    registerUser,
-    loginUser,
-    userLogin,
-};
+// module.exports = {
+//     getAllUsers,
+//     getSingleUser,
+//     updateUser,
+//     registerUser,
+//     loginUser,
+//     userLogin,
+// };

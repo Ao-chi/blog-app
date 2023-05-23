@@ -14,10 +14,13 @@ import ProfileModal from "@/components/settings/profileModal";
 import Button from "@/components/button/button";
 import Head from "next/head";
 import Image from "next/image";
+import connectDB from "@/lib/mongodb";
+import BlogPost from "@/models/blogPostsModel";
+import User from "@/models/userModel";
 
 const SingleUser = ({ blog }) => {
-    // console.log(blog);
-    const { email, username, _id: authorId, bio } = blog.author;
+    console.log(blog);
+    const { email, username, _id: authorId, bio } = blog;
     const { data: session, status } = useSession();
     // console.log(session);
     const profile = "profile";
@@ -26,9 +29,7 @@ const SingleUser = ({ blog }) => {
     return (
         <Layout>
             <Head>
-                <title>
-                    {username} {email}
-                </title>
+                <title>{`${username} ${email}`}</title>
             </Head>
             <section className={`${style.container}`}>
                 <div className={`${style["profile-wrapper"]}`}>
@@ -72,14 +73,14 @@ const SingleUser = ({ blog }) => {
                 </div>
                 {openModal && <ProfileModal closeModal={setOpenModal} />}
                 <div className={`${style.feed}`}>
-                    {!blog.author?.blogs ? (
+                    {!blog?.blogs ? (
                         <>
                             <div>
                                 <h2> You haven&apos;t posted a blog yet</h2>
                             </div>
                         </>
                     ) : (
-                        blog.author?.blogs.map(({ _id, title, createdAt }) => {
+                        blog?.blogs.map(({ _id, title, createdAt }) => {
                             return (
                                 <div key={_id}>
                                     <Card
@@ -102,23 +103,56 @@ const SingleUser = ({ blog }) => {
 
 export default SingleUser;
 
+// export async function getStaticProps({ params }) {
+//     const response = await axios.get(`http://localhost:3000/api/blogs/author/${params.id}`);
+//     // console.log(response.data);
+//     return {
+//         props: {
+//             blog: response.data,
+//         },
+//     };
+// }
+
 export async function getStaticProps({ params }) {
-    const response = await axios.get(`http://localhost:3000/api/blogs/author/${params.id}`);
-    // console.log(response.data);
+    // const response = await fetch(`${process.env.NEXTAUTH_URL}/api/blogs/author/${params.id}`);
+    await connectDB();
+
+    const data = await User.findById(`${params.id}`).populate("blogs");
+    console.log(data);
+
     return {
         props: {
-            blog: response.data,
+            blog: JSON.parse(JSON.stringify(data)),
         },
     };
 }
+// export async function getStaticPaths() {
+//     const res = await axios.get("http://localhost:3000/api/blogs");
+
+//     const paths = res.data.map((blogs) => {
+//         // console.log(blogs);
+//         return {
+//             params: { id: JSON.parse(JSON.stringify(blogs?.author._id)) },
+//         };
+//     });
+
+//     return {
+//         paths,
+//         fallback: false,
+//     };
+// }
 
 export async function getStaticPaths() {
-    const res = await axios.get("http://localhost:3000/api/blogs");
+    // const res = await fetch(`${process.env.NEXTAUTH_URL}/api/blogs`);
+    // const data = await res.json();
+    await connectDB();
 
-    const paths = res.data.map((blogs) => {
-        console.log(blogs);
+    const data = await BlogPost.find({});
+
+    const paths = data.map((blogs) => {
+        // console.log(blogs);
         return {
-            params: { id: JSON.parse(JSON.stringify(blogs.author._id)) },
+            params: { id: JSON.parse(JSON.stringify(blogs?.author._id)) },
         };
     });
 

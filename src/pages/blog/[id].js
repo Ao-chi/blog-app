@@ -13,8 +13,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPen, faTrash } from "@fortawesome/free-solid-svg-icons";
 import Button from "@/components/button/button";
 import Image from "next/image";
+import connectDB from "@/lib/mongodb";
+import BlogPost from "@/models/blogPostsModel";
 
-const BlogPost = ({ blog }) => {
+const Post = ({ blog }) => {
     // console.log(blog);
     const { title, content, createdAt, updatedAt } = blog;
     const { _id: authorId, username, email, bio } = blog.author;
@@ -90,22 +92,27 @@ const BlogPost = ({ blog }) => {
     );
 };
 
-export default BlogPost;
+export default Post;
 
 export async function getStaticProps({ params }) {
-    const response = await axios.get(`http://localhost:3000/api/blogs/${params.id}`);
+    await connectDB();
+    // const response = await axios.get(`${process.env.NEXTAUTH_URL}/api/blogs/${params.id}`);
+    const data = await BlogPost.findById(`${params.id}`).populate("author");
 
     return {
         props: {
-            blog: response.data,
+            blog: JSON.parse(JSON.stringify(data)),
         },
     };
 }
 
 export async function getStaticPaths() {
-    const res = await axios.get("http://localhost:3000/api/blogs");
+    await connectDB();
+    const data = await BlogPost.find({});
 
-    const paths = res.data.map((blogs) => {
+    // const res = await axios.get(`${process.env.NEXTAUTH_URL}/api/blogs`);
+
+    const paths = data.map((blogs) => {
         return {
             params: { id: JSON.parse(JSON.stringify(blogs._id)) },
         };
@@ -116,3 +123,28 @@ export async function getStaticPaths() {
         fallback: false,
     };
 }
+
+// export async function getStaticProps({ params }) {
+//     const response = await axios.get(`${process.env.NEXTAUTH_URL}/api/blogs/${params.id}`);
+
+//     return {
+//         props: {
+//             blog: response.data,
+//         },
+//     };
+// }
+
+// export async function getStaticPaths() {
+//     const res = await axios.get(`${process.env.NEXTAUTH_URL}/api/blogs`);
+
+//     const paths = res.data.map((blogs) => {
+//         return {
+//             params: { id: JSON.parse(JSON.stringify(blogs._id)) },
+//         };
+//     });
+
+//     return {
+//         paths,
+//         fallback: false,
+//     };
+// }
