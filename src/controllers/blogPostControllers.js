@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
-import User from "../models/userModel";
 import BlogPost from "../models/blogPostsModel";
+import User from "../models/userModel";
 import multer from "multer";
 import { createRouter, expressWrapper } from "next-connect";
 

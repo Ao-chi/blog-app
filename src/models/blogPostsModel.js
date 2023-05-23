@@ -24,4 +24,5 @@ const blogPostSchema = new Schema(
     { timestamps: true }
 );
 
-export default models.BlogPost || model("BlogPost", blogPostSchema);
+const BlogPost = mongoose.models.BlogPost || model("BlogPost", blogPostSchema);
+export default BlogPost;

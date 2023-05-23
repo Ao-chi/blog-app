@@ -1,4 +1,7 @@
 import React from "react";
+import connectDB from "@/lib/mongodb";
+import BlogPost from "@/models/blogPostsModel";
+import User from "@/models/userModel";
 
 import axios from "axios";
 import parse from "html-react-parser";
@@ -13,8 +16,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPen, faTrash } from "@fortawesome/free-solid-svg-icons";
 import Button from "@/components/button/button";
 import Image from "next/image";
-import connectDB from "@/lib/mongodb";
-import BlogPost from "@/models/blogPostsModel";
 
 const Post = ({ blog }) => {
     // console.log(blog);

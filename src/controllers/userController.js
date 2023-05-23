@@ -1,8 +1,8 @@
 import mongoose from "mongoose";
+import connectDB from "@/lib/mongodb";
 import User from "../models/userModel";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import connectDB from "@/lib/mongodb";
 
 // function to generate jsonwebtoken
 const generateToken = ({ _id }) => {

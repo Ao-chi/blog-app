@@ -1,6 +1,9 @@
 import React from "react";
 
 import { useState } from "react";
+import connectDB from "@/lib/mongodb";
+import User from "@/models/userModel";
+import BlogPost from "@/models/blogPostsModel";
 
 import axios from "axios";
 import Link from "next/link";
@@ -14,9 +17,6 @@ import ProfileModal from "@/components/settings/profileModal";
 import Button from "@/components/button/button";
 import Head from "next/head";
 import Image from "next/image";
-import connectDB from "@/lib/mongodb";
-import BlogPost from "@/models/blogPostsModel";
-import User from "@/models/userModel";
 
 const SingleUser = ({ blog }) => {
     console.log(blog);
