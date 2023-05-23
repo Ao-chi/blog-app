@@ -27,7 +27,7 @@ const ProfileModal = ({ closeModal }) => {
         };
 
         getData();
-    }, []);
+    }, [session?.user.id]);
 
     const handleOnchange = (e) => {
         const { name, value } = e.target;
@@ -54,11 +54,12 @@ const ProfileModal = ({ closeModal }) => {
                     <Button
                         type={"button"}
                         className={`${style.modal__close}`}
-                        children={<FontAwesomeIcon icon={faXmark}></FontAwesomeIcon>}
                         onClick={() => {
                             closeModal(false);
                         }}
-                    ></Button>
+                    >
+                        <FontAwesomeIcon icon={faXmark}></FontAwesomeIcon>
+                    </Button>
                     <span> Edit Profile</span>
                 </div>
                 <form action="" encType="multipart/form-data" className={`${style["profile-form"]}`}>

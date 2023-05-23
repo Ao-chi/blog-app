@@ -12,6 +12,7 @@ import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPen, faTrash } from "@fortawesome/free-solid-svg-icons";
 import Button from "@/components/button/button";
+import Image from "next/image";
 
 const BlogPost = ({ blog }) => {
     // console.log(blog);
@@ -46,16 +47,12 @@ const BlogPost = ({ blog }) => {
                                 </div>
                                 {session?.user.id === authorId && (
                                     <div className={`${style["edit-area"]}`}>
-                                        <Button
-                                            type={"butotn"}
-                                            className={`${style["edit-area__edit"]}`}
-                                            children={<FontAwesomeIcon icon={faPen}></FontAwesomeIcon>}
-                                        />
-                                        <Button
-                                            type={"button"}
-                                            className={`${style["edit-area__delete"]}`}
-                                            children={<FontAwesomeIcon icon={faTrash}></FontAwesomeIcon>}
-                                        />
+                                        <Button type={"butotn"} className={`${style["edit-area__edit"]}`}>
+                                            <FontAwesomeIcon icon={faPen}></FontAwesomeIcon>
+                                        </Button>
+                                        <Button type={"button"} className={`${style["edit-area__delete"]}`}>
+                                            <FontAwesomeIcon icon={faTrash}></FontAwesomeIcon>
+                                        </Button>
                                     </div>
                                 )}
                             </header>
@@ -68,10 +65,12 @@ const BlogPost = ({ blog }) => {
                     <aside className={`${style["author-profile"]}`}>
                         <Link href={`/user/${authorId}`}>
                             <div className={`${style.profile}`}>
-                                <img
+                                <Image
                                     className={`${style.profile__img}`}
                                     src="/images/Tokoyami_Towa_-_Portrait_01.png"
                                     alt="profile"
+                                    width={100}
+                                    height={100}
                                 />
                                 <div className={`${style.profile__details}`}>
                                     <p>{username}</p>

@@ -224,21 +224,20 @@ const Login = () => {
                                 <Button
                                     className={`${style.password__hide} `}
                                     type="button"
-                                    children={
-                                        showPassword ? (
-                                            <FontAwesomeIcon
-                                                className={`${style.password__icon}`}
-                                                icon={faEyeSlash}
-                                            ></FontAwesomeIcon>
-                                        ) : (
-                                            <FontAwesomeIcon
-                                                className={`${style.password__icon}`}
-                                                icon={faEye}
-                                            ></FontAwesomeIcon>
-                                        )
-                                    }
                                     onClick={handleToggleShowPassword}
-                                />
+                                >
+                                    {showPassword ? (
+                                        <FontAwesomeIcon
+                                            className={`${style.password__icon}`}
+                                            icon={faEyeSlash}
+                                        ></FontAwesomeIcon>
+                                    ) : (
+                                        <FontAwesomeIcon
+                                            className={`${style.password__icon}`}
+                                            icon={faEye}
+                                        ></FontAwesomeIcon>
+                                    )}
+                                </Button>
                             </label>
                             {inputErrors.password && (
                                 <span className={`${style.login_form__error}`}>

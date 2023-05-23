@@ -14,6 +14,7 @@ import Login from "@/pages/login";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPen, faSignOut } from "@fortawesome/free-solid-svg-icons";
 import Button from "../button/button";
+import Image from "next/image";
 
 const Navbar = () => {
     const { data: session, status } = useSession();
@@ -121,21 +122,18 @@ const Navbar = () => {
                         {session && (
                             <div className={`${style.dropdown}`}>
                                 <div className={`${style.profile}`}>
-                                    <Button
-                                        className={`${style.button} ${style["write-post"]}`}
-                                        children={
-                                            <Link
-                                                className={`${style["dropdown-menu__item"]} `}
-                                                href="/write-post"
-                                            >
-                                                <FontAwesomeIcon
-                                                    className={`${style.icon}`}
-                                                    icon={faPen}
-                                                ></FontAwesomeIcon>{" "}
-                                                Write
-                                            </Link>
-                                        }
-                                    ></Button>
+                                    <Button className={`${style.button} ${style["write-post"]}`}>
+                                        <Link
+                                            className={`${style["dropdown-menu__item"]} `}
+                                            href="/write-post"
+                                        >
+                                            <FontAwesomeIcon
+                                                className={`${style.icon}`}
+                                                icon={faPen}
+                                            ></FontAwesomeIcon>{" "}
+                                            Write
+                                        </Link>
+                                    </Button>
                                     <button
                                         className={`${style["profile-btn"]} ${style.button}`}
                                         type="button"
@@ -146,7 +144,12 @@ const Navbar = () => {
                                         onClick={handleDropdown}
                                     >
                                         <div className={`${style["img-container"]}`}>
-                                            <img src="/images/Towa_Ch._3F3F_3j.webp" alt="towa" />
+                                            <Image
+                                                src="/images/Towa_Ch._3F3F_3j.webp"
+                                                alt="towa"
+                                                width={100}
+                                                height={100}
+                                            />
                                         </div>
                                     </button>
                                 </div>
@@ -165,7 +168,12 @@ const Navbar = () => {
                                             onClick={handleUserLinkClick}
                                         >
                                             <div className={`${style["img-container"]}`}>
-                                                <img src="/images/Towa_Ch._3F3F_3j.webp" alt="towa" />
+                                                <Image
+                                                    src="/images/Towa_Ch._3F3F_3j.webp"
+                                                    alt="towa"
+                                                    width={100}
+                                                    height={100}
+                                                />
                                             </div>
 
                                             <div>
