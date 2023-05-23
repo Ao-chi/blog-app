@@ -195,11 +195,9 @@ const Signup = () => {
                             )}
                         </div>
 
-                        <Button
-                            className={`${style.button} ${style.signup_form__btn}`}
-                            type={"submit"}
-                            children={"Sign up"}
-                        ></Button>
+                        <Button className={`${style.button} ${style.signup_form__btn}`} type={"submit"}>
+                            Sign up
+                        </Button>
 
                         <p>
                             Already have an account?{" "}

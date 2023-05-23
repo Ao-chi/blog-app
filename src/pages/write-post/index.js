@@ -17,7 +17,7 @@ import Layout from "../Layout";
 
 import { getSession, useSession } from "next-auth/react";
 
-const writePost = () => {
+const WritePost = () => {
     const { data: session, status } = useSession();
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
@@ -151,7 +151,7 @@ const writePost = () => {
     );
 };
 
-export default writePost;
+export default WritePost;
 
 export async function getServerSideProps({ req }) {
     const session = await getSession({ req });

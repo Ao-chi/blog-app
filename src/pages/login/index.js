@@ -247,11 +247,9 @@ const Login = () => {
                             )}
                         </div>
 
-                        <Button
-                            className={`${style.button} ${style.login_form__btn}`}
-                            type={"submit"}
-                            children={"Log in"}
-                        ></Button>
+                        <Button className={`${style.button} ${style.login_form__btn}`} type={"submit"}>
+                            Log in
+                        </Button>
 
                         <p>
                             Don't have an account?{" "}

@@ -8,6 +8,7 @@ import style from "../../styles/sass/components/modal.module.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import Button from "../button/button";
+import Image from "next/image";
 
 const ProfileModal = ({ closeModal }) => {
     const router = useRouter();
@@ -64,10 +65,12 @@ const ProfileModal = ({ closeModal }) => {
                 </div>
                 <form action="" encType="multipart/form-data" className={`${style["profile-form"]}`}>
                     <div className={`${style["image-wrapper"]}`}>
-                        <img
+                        <Image
                             className={`${style["image-handle"]}`}
                             src="/images/Towa_Ch._3F3F_3j.webp"
-                            alt=""
+                            alt="user-profilep-pic"
+                            width={100}
+                            height={100}
                         />
                         <label htmlFor="uploadImage">
                             Change Profile Photo
@@ -118,12 +121,9 @@ const ProfileModal = ({ closeModal }) => {
                         </label>
                     </div>
                     <div className={`${style["button-container"]}`}>
-                        <Button
-                            className={`${style["save-btn"]}`}
-                            type={"submit"}
-                            children={"Save"}
-                            onClick={handleSave}
-                        ></Button>
+                        <Button className={`${style["save-btn"]}`} type={"submit"} onClick={handleSave}>
+                            Save
+                        </Button>
                     </div>
                 </form>
             </div>
