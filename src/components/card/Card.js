@@ -18,7 +18,7 @@ const Card = ({ id, title, author, email, username, createdAt }) => {
                             className={`${style.card__img}`}
                             src="/images/Towa_Ch._3F3F_3j.webp"
                             alt="user-image"
-                            width={100}
+                            width={200}
                             height={100}
                         />
                         <div>
