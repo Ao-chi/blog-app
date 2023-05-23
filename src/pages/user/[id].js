@@ -103,7 +103,7 @@ const SingleUser = ({ blog }) => {
 export default SingleUser;
 
 export async function getStaticProps({ params }) {
-    const response = await axios.get(`http://localhost:3000/api/blogs/author/${params.id}`);
+    const response = await axios.get(`http://blog-app-omega-one.vercel.app/api/blogs/author/${params.id}`);
     // console.log(response.data);
     return {
         props: {
@@ -113,7 +113,7 @@ export async function getStaticProps({ params }) {
 }
 
 export async function getStaticPaths() {
-    const res = await axios.get("http://localhost:3000/api/blogs");
+    const res = await axios.get("http://blog-app-omega-one.vercel.app/api/blogs");
 
     const paths = res.data.map((blogs) => {
         console.log(blogs);
