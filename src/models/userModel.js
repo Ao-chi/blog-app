@@ -1,6 +1,6 @@
 import mongoose, { Schema, model, models, mongo } from "mongoose";
 
-const userSchema = new Schema(
+const userSchema = new mongoose.Schema(
     {
         username: {
             type: String,
@@ -27,7 +27,7 @@ const userSchema = new Schema(
         },
         blogs: [
             {
-                type: mongoose.Types.ObjectId,
+                type: Schema.Types.ObjectId,
                 ref: "BlogPost",
             },
         ],
@@ -35,6 +35,6 @@ const userSchema = new Schema(
     { timestamps: true }
 );
 
-const User = mongoose.models.User || model("User", userSchema);
+const User = mongoose.models?.User || model("User", userSchema);
 
 export default User;

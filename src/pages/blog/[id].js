@@ -97,8 +97,9 @@ export default Post;
 
 export async function getStaticProps({ params }) {
     await connectDB();
+
     // const response = await axios.get(`${process.env.NEXTAUTH_URL}/api/blogs/${params.id}`);
-    const data = await BlogPost.findById(`${params.id}`).populate("author");
+    const data = await BlogPost.findById(`${params.id}`).populate({ path: "author" });
 
     return {
         props: {

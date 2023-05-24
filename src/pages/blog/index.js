@@ -7,7 +7,9 @@ import Card from "@/components/card/Card";
 import style from "../../styles/blogs.module.scss";
 
 // database connect
+import mongoose from "mongoose";
 import connectDB from "@/lib/mongodb";
+import User from "@/models/userModel";
 import BlogPost from "@/models/blogPostsModel";
 import Link from "next/link";
 
