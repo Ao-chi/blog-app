@@ -42,8 +42,8 @@ const DeleteModal = ({ openModal, id, authorId }) => {
                             <p>Delete post?</p>
                         </div>
                         <span>
-                            This can't be undone, and by deleting this post it will be removed from your
-                            profile and other people's feeds.{" "}
+                            This can&apos;t be undone, and by deleting this post it will be removed from your
+                            profile and other people&apos;s feeds.
                         </span>
                     </div>
 
