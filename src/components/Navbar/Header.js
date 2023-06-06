@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
@@ -15,10 +15,13 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPen, faSignOut } from "@fortawesome/free-solid-svg-icons";
 import Button from "../button/button";
 import Image from "next/image";
+import Dropdown from "../dropdown/Dropdown";
+import useClickOutside from "@/hooks/useClickOutside";
 
 const Navbar = () => {
-    const { data: session, status } = useSession();
-    // console.log(session.user);
+    const { data: session, status, update } = useSession();
+    // console.log(session);
+    const dropdownRef = useRef(null);
 
     // const token = useSelector(currentToken);
     // const loggedIn = useSelector(isLoggedIn);
@@ -29,18 +32,21 @@ const Navbar = () => {
         e.preventDefault();
         // dispatch(logoutUser());
         signOut({ callbackUrl: "/" });
-        // router.push("/");
     };
 
     const [isOpen, setIsOpen] = useState(false);
 
     const handleDropdown = () => {
         setIsOpen(!isOpen);
-        // if (router.pathname === "/user") {
-        //     console.log(router.pathname);
-        //     setIsOpen(!false);
-        // }
     };
+
+    // custom hook for dropdown menus
+    // useClickOutside(dropdownRef, () => {
+    //     setIsOpen(false);
+    // });
+    const setActiveRef = useClickOutside(dropdownRef, () => {
+        setIsOpen(false);
+    });
 
     const handleUserLinkClick = (e) => {
         // Check if current URL is user page
@@ -90,13 +96,7 @@ const Navbar = () => {
                         !session && status === "loading" ? style.loading : style.loaded
                     } `}
                 >
-                    {session && status === "authenticated" ? (
-                        <>
-                            {/* <li className={style.auth_menu__list}>
-                                <p>Welcome {session.user.username}</p>
-                            </li> */}
-                        </>
-                    ) : (
+                    {!session?.user && (
                         <>
                             <li className={style.auth_menu__list}>
                                 <Link
@@ -119,8 +119,8 @@ const Navbar = () => {
                     )}
 
                     <li className={style.auth_menu__list}>
-                        {session && (
-                            <div className={`${style.dropdown}`}>
+                        {session?.user?.id && (
+                            <div className={`${style.dropdown}`} ref={setActiveRef}>
                                 <div className={`${style.profile}`}>
                                     <Button className={`${style.button} ${style["write-post"]}`}>
                                         <Link
@@ -145,7 +145,7 @@ const Navbar = () => {
                                     >
                                         <div className={`${style["img-container"]}`}>
                                             <Image
-                                                src="/images/Towa_Ch._3F3F_3j.webp"
+                                                src={session.user?.picture.url}
                                                 alt="towa"
                                                 width={100}
                                                 height={100}
@@ -154,22 +154,21 @@ const Navbar = () => {
                                     </button>
                                 </div>
 
-                                <div
+                                <Dropdown
                                     className={`${style["dropdown-menu"]} ${
                                         isOpen ? style.open : style.close
                                     }`}
-                                    aria-labelledby="prfileId"
                                 >
-                                    <div></div>
-                                    <div>
+                                    <div className={`${style["account-header"]}`}>
                                         <Link
                                             className={`${style["dropdown-menu__item"]} `}
-                                            href={`/user/${session?.user?.id}`}
+                                            href={`/user/${session?.user?.username}`}
+                                            passHref
                                             onClick={handleUserLinkClick}
                                         >
                                             <div className={`${style["img-container"]}`}>
                                                 <Image
-                                                    src="/images/Towa_Ch._3F3F_3j.webp"
+                                                    src={session.user?.picture.url}
                                                     alt="towa"
                                                     width={100}
                                                     height={100}
@@ -177,12 +176,24 @@ const Navbar = () => {
                                             </div>
 
                                             <div>
-                                                <span>{session.user.username}</span>
+                                                <span>{session?.user?.username}</span>
                                                 <span className={`${style}`}>{session.user.email}</span>
                                             </div>
                                         </Link>
+                                    </div>
+                                    <div className={`${style["dropdown-menu__body"]}`}>
                                         <Link
-                                            className={`${style["dropdown-menu__item"]} ${style["log-in"]}`}
+                                            className={`${style["dropdown-menu__item"]}  ${style.link} `}
+                                            href="/write-post"
+                                        >
+                                            <FontAwesomeIcon
+                                                className={`${style.icon}`}
+                                                icon={faPen}
+                                            ></FontAwesomeIcon>{" "}
+                                            Write Post
+                                        </Link>
+                                        <Link
+                                            className={`${style["dropdown-menu__item"]} ${style.link}`}
                                             href="/"
                                             onClick={handleLog}
                                         >
@@ -193,7 +204,7 @@ const Navbar = () => {
                                             Log out
                                         </Link>
                                     </div>
-                                </div>
+                                </Dropdown>
                             </div>
                         )}
                     </li>

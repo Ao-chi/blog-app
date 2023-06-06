@@ -1,0 +1,36 @@
+@import "../abstracts/functions";
+@import "../abstracts/mixins";
+@import "../abstracts/variables";
+
+.dropdown-menu {
+    position: absolute;
+    top: auto;
+    right: 0;
+    background: $white;
+    border-radius: 10px;
+    padding: $p-1;
+    width: min-content;
+    box-shadow: 0px 0px 6px -1px rgba(0, 0, 0, 0.36);
+    -webkit-box-shadow: 0px 0px 6px -1px rgba(0, 0, 0, 0.36);
+    -moz-box-shadow: 0px 0px 6px -1px rgba(0, 0, 0, 0.36);
+
+    .dropdown-item {
+        display: flex;
+        align-items: center;
+        gap: $p-1;
+        padding: 2px $p-0_5;
+        border-radius: 3px;
+        cursor: pointer;
+
+        svg {
+            width: 1em;
+        }
+        span {
+            white-space: nowrap;
+        }
+
+        &:hover {
+            background: $lighter-grey;
+        }
+    }
+}

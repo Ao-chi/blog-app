@@ -3,24 +3,32 @@
 @import "../styles/sass/abstracts/variables";
 @import "../styles/sass/components/button.module.scss";
 
-.login_page {
+.login-page,
+.signup-page {
     height: 100%;
 }
 
 .login_section,
 .signup_section {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr;
+    min-height: 100%;
+    padding: 5%;
 }
 
 .form_card {
-    width: 340px;
+    width: 100%;
     justify-self: center;
     align-self: center;
+
+    h3 {
+        text-align: center;
+    }
 }
 
 .button {
     background-color: $black !important;
+    width: 100%;
     &:hover {
         color: $black;
         background-color: transparent !important;
@@ -76,6 +84,10 @@
         font-size: font-size(fs-16);
         padding-top: calc($p-0_5 - 0.3rem);
     }
+
+    &__donthaveacc {
+        text-align: center;
+    }
 }
 
 .input_field {
@@ -97,25 +109,72 @@
     }
 
     &__icon {
-        color: $grayish-blue;
+        color: $gray;
     }
 }
 
 .logo {
     svg {
         width: 150px;
+        margin: 0 auto;
     }
 }
 
-.login_bg,
-.signup_bg {
-    background-image: url("../../public/images/logn_in-min-min.jpg");
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    height: 100vh;
-    width: 100%;
-    object-fit: cover;
-    border-top-left-radius: 30px;
-    border-bottom-left-radius: 30px;
+// .login-bg,
+// .signup-bg {
+//     background-image: url("../../public/images/logn_in-min-min.jpg");
+//     background-position: center;
+//     background-repeat: no-repeat;
+//     background-size: cover;
+//     height: 100vh;
+//     width: 100%;
+//     object-fit: cover;
+//     border-top-left-radius: 30px;
+//     border-bottom-left-radius: 30px;
+// }
+
+.login-bg,
+.signup-bg {
+    display: none;
+}
+@include breakpoint(xs, min) {
+    .form_card {
+        width: 340px;
+    }
+}
+
+@include breakpoint(md, min) {
+    .login_section,
+    .signup_section {
+        grid-template-columns: 1fr 1fr;
+        padding: $p-0;
+    }
+    .form_card {
+        h3 {
+            text-align: left;
+        }
+    }
+    .login_form,
+    .signup_form {
+        &__donthaveacc {
+            text-align: left;
+        }
+    }
+
+    .login-bg,
+    .signup-bg {
+        display: block;
+        img {
+            height: 100vh;
+            width: 100%;
+            object-fit: cover;
+        }
+    }
+
+    .logo {
+        svg {
+            width: 150px;
+            margin: 0;
+        }
+    }
 }

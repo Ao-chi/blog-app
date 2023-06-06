@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import Image from "next/image";
 import axios from "axios";
 // scss
 import style from "../../styles/loginPage.module.scss";
@@ -93,7 +94,7 @@ const Signup = () => {
     };
 
     return (
-        <main className={`${style.signup_page}`}>
+        <main className={`${style["signup-page"]}`}>
             <section className={`${style.signup_section}`}>
                 <div className={`${style.form_card}`}>
                     <div>
@@ -199,7 +200,7 @@ const Signup = () => {
                             Sign up
                         </Button>
 
-                        <p>
+                        <p className={`${style.signup_form__donthaveacc}`}>
                             Already have an account?{" "}
                             <Link href="/login" className={`${style.signup_form__signup}`}>
                                 Sign In
@@ -207,7 +208,14 @@ const Signup = () => {
                         </p>
                     </form>
                 </div>
-                <div className={`${style.signup_bg}`}></div>
+                <div className={`${style["signup-bg"]}`}>
+                    <Image
+                        src={"/images/logn_in-min-min.jpg"}
+                        width={500}
+                        height={500}
+                        alt="signup-image"
+                    ></Image>
+                </div>
             </section>
         </main>
     );

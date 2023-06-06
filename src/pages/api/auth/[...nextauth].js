@@ -46,20 +46,29 @@ export default NextAuth({
     },
     secret: process.env.NEXTAUTH_SECRET,
     callbacks: {
-        async jwt({ token, user, account }) {
-            if (user) {
-                token.accessToken = account.id;
+        async jwt({ token, user, trigger, session }) {
+            if (trigger === "signIn") {
                 token.id = user.id;
                 token.username = user.username;
+                token.bio = user.bio;
+                token.location = user.location;
+            }
+            if (trigger === "update") {
+                return { ...token, ...session?.user };
             }
             return token;
         },
         async session({ session, token }) {
-            session.accessToken = token.accessToken;
-            session.user.id = token.id;
-            session.user.username = token.username;
+            if (session?.user) {
+                session.user = token;
+            }
+            // session.user.id = token.id;
+            // session.user.username = token.username;
 
             return session;
         },
+    },
+    jwt: {
+        maxAge: 60 * 60 * 24 * 30,
     },
 });

@@ -10,6 +10,12 @@ const nextConfig = {
         ACCESS_TOKEN: "de242607fb7ff8961cda331922f17236d160139e",
         NEXTAUTH_SECRET: "leopaKwNf4hNRx9YgyIdhoiK7JqUr/SZntAiYdNI/YM=",
         NEXTAUTH_URL: "http://localhost:3000",
+        CLOUDINARY_API_KEY: "693396889741612",
+        CLOUDINARY_API_SECRET: "IxRrPibgww1Ow-_RdIETUXR0Ooo",
+        CLOUDINARY_NAME: "aoichan",
+    },
+    images: {
+        domains: ["res.cloudinary.com"],
     },
 };
 

@@ -12,17 +12,56 @@
     padding: $p-1;
     height: 100%;
 
+    &__header {
+        display: flex;
+        justify-content: space-between;
+    }
+
     &__profile {
         display: flex;
         margin-bottom: $p-0_5;
     }
 
-    &__img {
+    .ellipsis {
+        position: relative;
+
+        &__btn {
+            background: transparent;
+            border: none;
+            cursor: pointer;
+        }
+    }
+
+    &__img-container {
+        position: relative;
         height: 3rem;
-        width: auto;
-        border: 1px;
+        width: 3rem;
+        border: 1px solid $black;
         border-radius: 50%;
         margin-right: $p-0_5;
+        overflow: hidden;
+
+        &:hover {
+            .img-overlay {
+                display: block;
+            }
+        }
+        .img-overlay {
+            display: none;
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            background-color: rgba(0, 0, 0, 0.09);
+        }
+    }
+
+    &__img {
+        height: 3rem;
+        width: 100%;
+        object-fit: cover;
+        // margin-right: $p-0_5;
     }
 
     &__user {
@@ -40,10 +79,6 @@
         font-size: fs(fs-16);
     }
 
-    &__body {
-        padding-left: 3.4375rem;
-    }
-
     &__title {
         font-size: fs(fs-24);
         font-weight: font-weight(font-bold);
@@ -55,5 +90,13 @@
 
     &__date {
         font-size: fs(fs-14);
+    }
+}
+
+@include breakpoint(md, min) {
+    .card {
+        &__body {
+            padding-left: 3.4375rem;
+        }
     }
 }

@@ -1,8 +1,10 @@
 import mongoose from "mongoose";
 import connectDB from "@/lib/mongodb";
 import User from "../models/userModel";
+import BlogPost from "@/models/blogPostsModel";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import cloudinary from "@/lib/cloudinary";
 
 // function to generate jsonwebtoken
 const generateToken = ({ _id }) => {
@@ -35,6 +37,53 @@ export const getSingleUser = async (req, res) => {
     }
 };
 
+// GET user by username
+export const getByUsername = async (req, res) => {
+    const { id } = req.query;
+
+    try {
+        const user = await User.where("username").equals(id);
+        res.status(201).json(user);
+    } catch (error) {
+        res.status(401).json({ error: "Trouble finding User" });
+    }
+};
+
+// delete user
+export const deleteUser = async (req, res) => {
+    const { id } = req.query;
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(404).json({ error: "Trouble finding User" });
+    }
+    try {
+        // Find the user and populate the 'blogs' field
+        const user = await User.findById(id).populate("blogs");
+
+        // Get an array of blog post ObjectIDs associated with the user
+        const blogPostIds = user.blogs.map((blog) => blog._id);
+
+        if (blogPostIds.length > 0) {
+            console.log(blogPostIds);
+            // Delete the associated blog posts
+            await BlogPost.deleteMany({ _id: { $in: blogPostIds } });
+        }
+
+        // Delete the user
+        await User.deleteOne({ _id: id });
+
+        res.status(200).json({
+            message: "Successfully deleted user and associated blog posts",
+            blogPostIds,
+            user,
+        });
+
+        // res.status(200).json({ message: "Successfully deleted", user });
+    } catch (error) {
+        return res.status(400).json({ error: "error", message: "Error While Deleting the User" });
+    }
+};
+
 // UPDATE SINGLE USER
 export const updateUser = async (req, res) => {
     const { id } = req.query;
@@ -43,8 +92,42 @@ export const updateUser = async (req, res) => {
         if (!mongoose.Types.ObjectId.isValid(id)) {
             return res.status(404).json({ error: "Invalid ID" });
         }
-        const user = await User.findOneAndUpdate({ _id: id }, { ...req.body });
-        res.status(200).json(user);
+
+        const currentUserData = await User.findById(id);
+
+        const data = {
+            username: req.body.username,
+            bio: req.body.bio,
+            location: req.body.location,
+        };
+        // let image = null;
+
+        // Check if the request body contains an 'image' field
+        if (req.body.image.url !== currentUserData?.image?.url) {
+            const imgId = currentUserData?.image?.public_id;
+            // console.log(ImgId);
+            // console.log(currentUserData?.image?.url);
+            if (imgId) {
+                await cloudinary.uploader.destroy(imgId);
+            }
+
+            // Upload the image to Cloudinary
+            const uploadedImage = await cloudinary.uploader.upload(req.body.image, {
+                upload_preset: "user_image",
+                crop: "scale",
+            });
+
+            // Set the 'image' variable to the uploaded image details
+            data.image = {
+                public_id: uploadedImage.public_id,
+                url: uploadedImage.secure_url,
+            };
+        }
+
+        const user = await User.findOneAndUpdate({ _id: id }, { $set: data }, { new: true });
+        res.status(200).json(data);
+        // console.log(user);
+        // res.status(200).json(user);
     } catch (error) {
         return res.status(400).json({ error: "Trouble finding User" });
     }
@@ -120,11 +203,12 @@ export const loginUser = async (req, res) => {
     }
 };
 
+// using next auth
 export const userLogin = async (credentials) => {
-    // const { username, email, password } = credentials;
-    const email = credentials.email;
-    const username = credentials.username;
-    const password = credentials.password;
+    const { username, email, password } = credentials;
+    // const email = credentials.email;
+    // const username = credentials.username;
+    // const password = credentials.password;
 
     try {
         // Check if the provided email or username exists in the database
@@ -138,7 +222,7 @@ export const userLogin = async (credentials) => {
         if (!isMatch) {
             throw new Error("Wrong password");
         }
-
+        console.log(user);
         return user;
     } catch (error) {
         // console.log(error);

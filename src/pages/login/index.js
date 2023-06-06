@@ -18,6 +18,7 @@ import Button from "@/components/button/button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faExclamationCircle, faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { logInUser } from "@/features/auth/apiCall";
+import Image from "next/image";
 
 const Login = () => {
     const router = useRouter();
@@ -167,14 +168,14 @@ const Login = () => {
     };
 
     return (
-        <main className={`${style.login_page}`}>
+        <main className={`${style["login-page"]}`}>
             <section className={`${style.login_section}`}>
                 <div className={`${style.form_card}`}>
                     <div>
                         <Link href="/" className={`${style.logo}`}>
                             <svg
                                 width="429"
-                                height="86"
+                                height="56"
                                 viewBox="0 0 429 86"
                                 fill="none"
                                 xmlns="http://www.w3.org/2000/svg"
@@ -251,7 +252,7 @@ const Login = () => {
                             Log in
                         </Button>
 
-                        <p>
+                        <p className={`${style.login_form__donthaveacc}`}>
                             <span>Don&apos;t have an account?</span>
                             <Link href="/signup" className={`${style.login_form__signup}`}>
                                 Sign Up
@@ -259,7 +260,15 @@ const Login = () => {
                         </p>
                     </form>
                 </div>
-                <div className={`${style.login_bg}`}></div>
+                <div className={`${style["login-bg"]}`}>
+                    <Image
+                        src={"/images/logn_in-min-min.jpg"}
+                        width={300}
+                        height={300}
+                        priority={true}
+                        alt="login-image"
+                    ></Image>
+                </div>
             </section>
         </main>
     );

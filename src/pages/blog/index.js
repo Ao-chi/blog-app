@@ -7,7 +7,7 @@ import Card from "@/components/card/Card";
 import style from "../../styles/blogs.module.scss";
 
 // database connect
-import mongoose from "mongoose";
+
 import connectDB from "@/lib/mongodb";
 import User from "@/models/userModel";
 import BlogPost from "@/models/blogPostsModel";
@@ -22,7 +22,13 @@ const blog = ({ data }) => {
                     {data &&
                         data.map(
                             (
-                                { _id, title, author: { _id: authorId, username, email }, createdAt },
+                                {
+                                    _id,
+                                    title,
+                                    author: { _id: authorId, username, email, image: userImage },
+                                    image,
+                                    createdAt,
+                                },
                                 index
                             ) => {
                                 return (
@@ -34,6 +40,7 @@ const blog = ({ data }) => {
                                             username={username}
                                             email={email}
                                             createdAt={createdAt}
+                                            image={userImage?.url}
                                         ></Card>
                                     </div>
                                 );

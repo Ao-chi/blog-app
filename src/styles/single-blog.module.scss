@@ -8,12 +8,13 @@
 }
 .layout {
     display: grid;
-    grid-template-columns: 3fr 1fr;
+    grid-template-columns: 1fr;
     gap: 20px;
 }
 
 .blog-container {
-    padding: calc($p-1_5 + $p-1) $p-3;
+    position: relative;
+    // padding: calc($p-1_5 + $p-1) $p-3;
     border-radius: 10px;
     box-shadow: 0px 0px 5px -1px rgba(0, 0, 0, 0.4);
     -webkit-box-shadow: 0px 0px 5px -1px rgba(0, 0, 0, 0.4);
@@ -25,6 +26,24 @@
     }
 }
 
+.article-header {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    overflow: hidden;
+    padding-bottom: $p-1_5;
+
+    .article-image {
+        width: 100%;
+
+        &__cover {
+            width: 100%;
+            height: 300px;
+
+            object-fit: cover;
+        }
+    }
+}
+
 .author-profile {
     padding: $p-1_5;
     border-radius: 10px;
@@ -32,11 +51,42 @@
     -webkit-box-shadow: 0px 0px 5px -1px rgba(0, 0, 0, 0.4);
     -moz-box-shadow: 0px 0px 5px -1px rgba(0, 0, 0, 0.4);
     height: min-content;
+
+    &__profile {
+        display: flex;
+        margin-bottom: $p-1_5;
+    }
+
+    &__img {
+        width: 45px;
+        height: 45px;
+        border: 1px solid $darker-brown;
+        border-radius: 50%;
+        margin-right: $p-1;
+    }
+
+    &__details {
+        display: inline-block;
+
+        p {
+            color: $darker-brown;
+            font-weight: font-weight(font-bold);
+            text-transform: capitalize;
+            line-height: 1;
+            margin-bottom: $p-0;
+        }
+
+        span {
+            color: $domino;
+            font-size: fs(fs-14);
+        }
+    }
 }
 
 .profile {
     display: flex;
-    margin-bottom: $p-1_5;
+    padding: 5%;
+    padding-bottom: $p-0;
 
     &__img {
         width: 45px;
@@ -78,9 +128,52 @@
     }
 }
 
+.blog-post {
+    padding: $p-1_5;
+
+    &__title {
+        font-size: fs(fs-28);
+    }
+
+    &__content {
+        p {
+            font-size: fs(fs-16);
+        }
+    }
+}
+
 @include breakpoint(lg, min) {
     .container {
         max-width: 1400px;
         margin: $p-0 auto;
+    }
+    .layout {
+        display: grid;
+        grid-template-columns: 3fr 1fr;
+        gap: 20px;
+    }
+
+    .article-header {
+        .article-image {
+            height: 400px;
+
+            &__cover {
+                height: 400px;
+            }
+        }
+    }
+
+    .blog-post {
+        padding: $p-3;
+
+        &__title {
+            font-size: fs(fs-40);
+        }
+
+        &__content {
+            p {
+                font-size: fs(fs-18);
+            }
+        }
     }
 }

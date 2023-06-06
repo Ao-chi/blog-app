@@ -12,13 +12,19 @@ const blogPostSchema = new Schema(
             required: true,
         },
         author: {
-            type: mongoose.Types.ObjectId,
+            type: Schema.Types.ObjectId,
             ref: "User",
             required: true,
         },
         image: {
-            type: String,
-            required: false,
+            public_id: {
+                type: String,
+                // required: false,
+            },
+            url: {
+                type: String,
+                // required: false,
+            },
         },
     },
     { timestamps: true }

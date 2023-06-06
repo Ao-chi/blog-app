@@ -22,4 +22,11 @@ const idHandler = async (req, res) => {
     }
 };
 
+export const config = {
+    api: {
+        bodyParser: {
+            sizeLimit: "4mb",
+        },
+    },
+};
 export default idHandler;

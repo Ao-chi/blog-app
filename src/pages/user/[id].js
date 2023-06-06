@@ -104,7 +104,7 @@
 
 // export async function getStaticProps({ params }) {
 //     const response = await axios.get(`http://localhost:3000/api/blogs/author/${params.id}`);
-//     // console.log(response.data);
+//     console.log(response.data);
 //     return {
 //         props: {
 //             blog: response.data,
@@ -116,7 +116,7 @@
 //     const res = await axios.get("http://localhost:3000/api/blogs");
 
 //     const paths = res.data.map((blogs) => {
-//         console.log(blogs);
+//         // console.log(blogs);
 //         return {
 //             params: { id: JSON.parse(JSON.stringify(blogs.author._id)) },
 //         };
@@ -127,9 +127,9 @@
 //         fallback: false,
 //     };
 // }
-import React from "react";
+// import React from "react";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import connectDB from "@/lib/mongodb";
 import User from "@/models/userModel";
 import BlogPost from "@/models/blogPostsModel";
@@ -146,14 +146,55 @@ import ProfileModal from "@/components/settings/profileModal";
 import Button from "@/components/button/button";
 import Head from "next/head";
 import Image from "next/image";
+import { faLocationDot } from "@fortawesome/free-solid-svg-icons";
 
 const SingleUser = ({ blog }) => {
-    console.log(blog);
-    const { email, username, _id: authorId, bio } = blog;
-    const { data: session, status } = useSession();
-    // console.log(session);
-    const profile = "profile";
+    // console.log(blog);
+    const { data: session, status, update } = useSession();
+
+    const {
+        email = "",
+        username = "",
+        _id: authorId = "",
+        bio = "",
+        location = "",
+        blogs = [],
+        image: { public_id = "", url = "" } = {},
+    } = blog || {};
     const [openModal, setOpenModal] = useState(false);
+    const [userDetail, setUserDetail] = useState({
+        email,
+        username,
+        authorId,
+        bio,
+        location,
+        image: {
+            public_id,
+            url,
+        },
+    });
+
+    const {
+        email: userEmail,
+        username: userName,
+        authorId: userAuthorid,
+        bio: userBio,
+        location: userLocation,
+        image: { public_id: userPublicID, url: userUrl },
+    } = userDetail;
+
+    const handleModalClose = async () => {
+        setOpenModal(false);
+        try {
+            const res = await axios.get(`/api/auth/users/${authorId}`);
+
+            setUserDetail(res.data);
+
+            // console.log(res.data);
+        } catch (error) {
+            console.log(error);
+        }
+    };
 
     return (
         <Layout>
@@ -165,12 +206,16 @@ const SingleUser = ({ blog }) => {
                     <header className={`${style["profile-header"]}`}>
                         <div className={`${style["profile-header__avatar"]}`}>
                             <span className={`${style.image}`}>
-                                <Image
-                                    src="/images/Towa_Ch._3F3F_3j.webp"
-                                    alt="user-profile-image"
-                                    width={100}
-                                    height={100}
-                                />
+                                {url ? (
+                                    <Image src={url} alt="user-profile-image" width={100} height={100} />
+                                ) : (
+                                    <Image
+                                        src="/images/user-avatar.png"
+                                        alt="user-profile-image"
+                                        width={100}
+                                        height={100}
+                                    />
+                                )}
                             </span>
                         </div>
                         <div className={`${style["edit-profile"]}`}>
@@ -191,25 +236,63 @@ const SingleUser = ({ blog }) => {
                             )}
                         </div>
                         <div className={`${style["profile-header__body"]}`}>
-                            <span className={`${style["profile-header__username"]}`}>{username}</span>
-                            <span className={`${style["profile-header__email"]}`}>
-                                <FontAwesomeIcon icon={faEnvelope}></FontAwesomeIcon> {email}
-                            </span>
+                            {session?.user?.id === authorId ? (
+                                <>
+                                    <span className={`${style["profile-header__username"]}`}>
+                                        {session?.user?.username}
+                                    </span>
+                                    <div className={`${style["other-details"]}`}>
+                                        <p className={`${style["other-details__item"]}`}>
+                                            <FontAwesomeIcon icon={faEnvelope}></FontAwesomeIcon>{" "}
+                                            <span>{email}</span>
+                                        </p>
+                                        {location && (
+                                            <p className={`${style["other-details__item"]}`}>
+                                                <FontAwesomeIcon icon={faLocationDot}></FontAwesomeIcon>
+                                                <span>{location}</span>
+                                            </p>
+                                        )}
+                                    </div>
 
-                            <p>{bio}</p>
+                                    <div className={`${style["profile-header__bio"]}`}>
+                                        <p>{bio}</p>
+                                    </div>
+                                </>
+                            ) : (
+                                <>
+                                    <span className={`${style["profile-header__username"]}`}>{userName}</span>
+                                    <div className={`${style["other-details"]}`}>
+                                        <p className={`${style["other-details__item"]}`}>
+                                            <FontAwesomeIcon icon={faEnvelope}></FontAwesomeIcon>{" "}
+                                            <span>{userEmail}</span>
+                                        </p>
+                                        {location && (
+                                            <p className={`${style["other-details__item"]}`}>
+                                                <FontAwesomeIcon icon={faLocationDot}></FontAwesomeIcon>
+                                                <span>{userLocation}</span>
+                                            </p>
+                                        )}
+                                    </div>
+
+                                    <div className={`${style["profile-header__bio"]}`}>
+                                        <p>{userBio}</p>
+                                    </div>
+                                </>
+                            )}
                         </div>
                     </header>
                 </div>
-                {openModal && <ProfileModal closeModal={setOpenModal} />}
+                {/* Modal */}
+                {openModal && <ProfileModal closeModal={handleModalClose} />}
                 <div className={`${style.feed}`}>
-                    {!blog?.blogs ? (
+                    {blog?.blogs?.length === 0 ? (
                         <>
-                            <div>
+                            <div className={`${style["feed__no-post"]}`}>
                                 <h2> You haven&apos;t posted a blog yet</h2>
                             </div>
                         </>
                     ) : (
-                        blog?.blogs.map(({ _id, title, createdAt }) => {
+                        blog?.blogs?.map(({ _id, title, createdAt }) => {
                             return (
                                 <div key={_id}>
                                     <Card
@@ -219,6 +302,7 @@ const SingleUser = ({ blog }) => {
                                         username={username}
                                         email={email}
                                         createdAt={createdAt}
+                                        image={url}
                                     ></Card>
                                 </div>
                             );
@@ -236,13 +320,16 @@ export async function getStaticProps({ params }) {
     // const response = await fetch(`${process.env.NEXTAUTH_URL}/api/blogs/author/${params.id}`);
     await connectDB();
 
-    const data = await User.findById(`${params.id}`).populate("blogs");
-    console.log(data);
+    const data = await User.findById(`${params?.id}`).populate("blogs");
+    // const data = await User.where("username").equals(`${params?.id}`).populate("blogs");
+
+    // console.log(data);
 
     return {
         props: {
             blog: JSON.parse(JSON.stringify(data)),
         },
+        revalidate: 10,
     };
 }
 
@@ -254,14 +341,15 @@ export async function getStaticPaths() {
     const data = await BlogPost.find({});
 
     const paths = data.map((blogs) => {
-        // console.log(blogs);
+        console.log(blogs);
         return {
             params: { id: JSON.parse(JSON.stringify(blogs?.author._id)) },
+            // params: { id: JSON.parse(JSON.stringify(blogs?.author.username)) },
         };
     });
 
     return {
         paths,
-        fallback: false,
+        fallback: true,
     };
 }

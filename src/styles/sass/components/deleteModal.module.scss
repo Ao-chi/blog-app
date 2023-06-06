@@ -1,0 +1,56 @@
+@import "../abstracts/functions";
+@import "../abstracts/mixins";
+@import "../abstracts/variables";
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: grid;
+    place-items: center;
+    z-index: 1000;
+}
+
+.modal {
+    border: 1px solid $dark-brown;
+    border-radius: 20px;
+    background: $white;
+    max-width: 300px;
+    height: min-content;
+    padding: $p-1_5 calc($p-1_5 + $p-0_5);
+
+    &__header {
+        p {
+            color: $red;
+            font-weight: font-weight(font-bold);
+        }
+
+        span {
+            color: $dark-brown;
+        }
+        margin-bottom: $p-1;
+    }
+
+    .button {
+        width: 100%;
+
+        &:nth-child(1) {
+            color: $white;
+            background: $dark-brown;
+
+            &:hover {
+                background: $darker-brown;
+            }
+        }
+        &:nth-child(2) {
+            color: $black;
+            margin-bottom: $p-0;
+            &:hover {
+                background: $lighter-grey;
+            }
+        }
+    }
+}

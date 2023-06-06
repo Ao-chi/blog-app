@@ -3,31 +3,32 @@ import BlogPost from "../models/blogPostsModel";
 import User from "../models/userModel";
 import multer from "multer";
 import { createRouter, expressWrapper } from "next-connect";
+import cloudinary from "@/lib/cloudinary";
 
 const router = createRouter();
 
 // handle file uploads
-export const storage = multer.diskStorage({
-    destination: (req, file, callback) => {
-        callback(null, "/public/uploads");
-    },
-    filename: (req, file, callback) => {
-        console.log(file);
-        callback(null, Date.now() + "-" + file.originalname);
-    },
-});
+// const storage = multer.diskStorage({
+//     destination: (req, file, callback) => {
+//         callback(null, "/public/uploads");
+//     },
+//     filename: (req, file, callback) => {
+//         console.log(file);
+//         callback(null, Date.now() + "-" + file.originalname);
+//     },
+// });
 
-const upload = multer({ storage: storage });
+// const upload = multer({ storage: storage });
 
 // GET all blog posts
-export const getBlogPosts = async (req, res) => {
+const getBlogPosts = async (req, res) => {
     const blogs = await BlogPost.find({}).sort({ createdAt: -1 }).populate("author");
 
     res.status(200).json(blogs);
 };
 
 // GET a single blog posts
-export const getSingleBlogPost = async (req, res) => {
+const getSingleBlogPost = async (req, res) => {
     const { id } = req.query;
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
@@ -44,8 +45,8 @@ export const getSingleBlogPost = async (req, res) => {
 };
 
 // POST a new blog posts
-export const createNewBlog = async (req, res) => {
-    const { title, content, author } = req.body;
+const createNewBlog = async (req, res) => {
+    const { title, content, image, author } = req.body;
 
     // add blog to db
     let existingUser;
@@ -58,19 +59,52 @@ export const createNewBlog = async (req, res) => {
         return res.status(400).json({ error: "Trouble finding User" });
     }
 
-    const blog = new BlogPost({
-        title,
-        content,
-        author,
-    });
+    // Upload image to Cloudinary
+    let cloudinaryResult;
+    try {
+        if (!image) {
+            console.log("no image");
+        }
+        cloudinaryResult = await cloudinary.uploader.upload(image, {
+            upload_preset: "post_image",
+            crop: "scale",
+        });
+        // console.log(cloudinaryResult);
+    } catch (error) {
+        console.log(error);
+        return res.status(400).json({ error: "Can't upload file" });
+    }
+
+    let blog;
+    if (cloudinaryResult && cloudinaryResult.public_id) {
+        blog = new BlogPost({
+            title,
+            content,
+            image: {
+                public_id: cloudinaryResult.public_id,
+                url: cloudinaryResult.secure_url,
+            },
+            author,
+        });
+    } else {
+        blog = new BlogPost({
+            title,
+            content,
+            image,
+            author,
+        });
+    }
 
     try {
         const session = await mongoose.startSession();
         session.startTransaction();
+
         await blog.save({ session });
         existingUser.blogs.push(blog);
         await existingUser.save({ session });
+
         await session.commitTransaction();
+
         res.status(200).json(blog);
     } catch (error) {
         res.status(400).json({ error: error.message });
@@ -78,24 +112,31 @@ export const createNewBlog = async (req, res) => {
 };
 
 // DELETE a blog posts
-export const deleteBlogPost = async (req, res) => {
+const deleteBlogPost = async (req, res) => {
     const { id } = req.query;
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
         return res.status(404).json({ error: "No such Blog Post" });
     }
     try {
-        const blog = await BlogPost.findByIdAndRemove({ _id: id }).populate("author");
-        await blog.author.blogs.pull(blog);
-        await blog.author.save();
-        res.status(200).json({ message: "Successfully deleted", blog });
+        const blog = await BlogPost.findById(id);
+
+        const imgId = blog.image.public_id;
+        if (imgId) {
+            await cloudinary.uploader.destroy(imgId);
+        }
+
+        const deleteBlog = await BlogPost.findByIdAndDelete({ _id: id }).populate("author");
+        await deleteBlog.author.blogs.pull(deleteBlog);
+        await deleteBlog.author.save();
+        res.status(200).json({ message: "Successfully deleted", deleteBlog });
     } catch (error) {
         return res.status(400).json({ error: "error", message: "Error While Deleting the Blog" });
     }
 };
 
 // GET user Blog by id
-export const getUserBlog = async (req, res) => {
+const getUserBlog = async (req, res) => {
     const { id } = req.query;
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
@@ -114,8 +155,24 @@ export const getUserBlog = async (req, res) => {
     }
 };
 
+// GET user Blog by id
+const getBlogByUsername = async (req, res) => {
+    const { id } = req.query;
+
+    let userBlogs;
+    try {
+        userBlogs = await User.where("username").equals(id).populate("blogs");
+
+        return res.status(200).json({ message: "Success", author: userBlogs });
+    } catch (error) {
+        if (!userBlogs) {
+            return res.status(404).json({ error: "Trouble Finding Blog" });
+        }
+    }
+};
+
 // UPDATE a blog posts
-export const updateBlogPost = async (req, res) => {
+const updateBlogPost = async (req, res) => {
     const { id } = req.query;
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
@@ -131,11 +188,11 @@ export const updateBlogPost = async (req, res) => {
     res.status(200).json(blog);
 };
 
-// module.exports = {
-//     getBlogPosts,
-//     getSingleBlogPost,
-//     createNewBlog,
-//     deleteBlogPost,
-//     getUserBlog,
-//     updateBlogPost,
-// };
+module.exports = {
+    getBlogPosts,
+    getSingleBlogPost,
+    createNewBlog,
+    deleteBlogPost,
+    getUserBlog,
+    updateBlogPost,
+};

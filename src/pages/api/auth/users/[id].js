@@ -1,5 +1,5 @@
 import connectDB from "@/lib/mongodb";
-import { getSingleUser, updateUser } from "../../../../controllers/userController";
+import { getSingleUser, updateUser, getByUsername, deleteUser } from "../../../../controllers/userController";
 
 /**
  *
@@ -15,6 +15,9 @@ const idHandler = async (req, res) => {
             if (req.query.id) {
                 getSingleUser(req, res);
             }
+            // if (req.query.id) {
+            //     getByUsername(req, res);
+            // }
         } catch (error) {
             res.status(401).json({ message: `${error}` });
         }
@@ -22,7 +25,7 @@ const idHandler = async (req, res) => {
         try {
             await connectDB();
 
-            deleteBlogPost(req, res);
+            deleteUser(req, res);
         } catch (error) {
             res.status(401).json({ message: `${error}` });
         }
@@ -38,4 +41,11 @@ const idHandler = async (req, res) => {
     }
 };
 
+export const config = {
+    api: {
+        bodyParser: {
+            sizeLimit: "10mb",
+        },
+    },
+};
 export default idHandler;
