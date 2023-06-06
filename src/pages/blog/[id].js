@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import connectDB from "@/lib/mongodb";
+import User from "@/models/userModel";
 import BlogPost from "@/models/blogPostsModel";
 
 import parse from "html-react-parser";
@@ -127,6 +128,7 @@ export async function getStaticProps({ params }) {
         props: {
             blog: JSON.parse(JSON.stringify(data)),
         },
+        revalidate: 10,
     };
 }
 
@@ -137,6 +139,7 @@ export async function getStaticPaths() {
     // const res = await axios.get(`${process.env.NEXTAUTH_URL}/api/blogs`);
 
     const paths = data.map((blogs) => {
+        console.log(blogs._id);
         return {
             params: { id: JSON.parse(JSON.stringify(blogs._id)) },
         };
