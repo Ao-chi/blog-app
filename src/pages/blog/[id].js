@@ -139,7 +139,7 @@ export async function getStaticPaths() {
     // const res = await axios.get(`${process.env.NEXTAUTH_URL}/api/blogs`);
 
     const paths = data.map((blogs) => {
-        console.log(blogs._id);
+        // console.log(blogs._id);
         return {
             params: { id: JSON.parse(JSON.stringify(blogs._id)) },
         };
